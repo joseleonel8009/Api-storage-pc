@@ -1,21 +1,31 @@
-const express = require('express');
-const mime = require('mime-types');
-const processPath = require('../lib/path');
+import { Router } from "express";
+import mime from "mime-types";
+import processPath from "../lib/path";
 
 // Initialization
-const router = express.Router();
+const router = Router();
 
-router.get('/:path/download', (req, res, err) => {
+router.get('/download/:path?/:name', (req, res, next) => {
+
+  const { path, name } = req.params;
+  const filePath = processPath(path + "/" + name).absolutePath;
+  const download = `${filePath}`;
+
+  if (!path) {
+    return res.json({
+      success: false,
+      message: 'No path was specified'
+    });
+  }
+
   try {
-    const file = processPath(req.params.path).absolutePath;
-    const mimetype = mime.lookup(file);
-    console.log(mimetype);
-    res.setHeader('Content-Disposition', `attachment; filename=${file}`);
+    const mimetype = mime.lookup(filePath);
+    res.setHeader('Content-Disposition', `attachment; filename=${name}`);
     res.setHeader('Content-Type', mimetype);
-    res.download(file);
+    res.download(download);
   } catch (err) {
     next(err);
   }
 });
 
-module.exports = router;
+export default router;

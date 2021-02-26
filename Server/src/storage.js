@@ -4,4 +4,4 @@ if (!storage) {
   process.exit(1);
 }
 
-module.exports = storage;
+export default storage;

@@ -1,4 +1,4 @@
-const { manageErr } = require('./base');
+import manageErr from "./base";
 
 const eexist = (err, req, res, next) => {
   manageErr(err, {
@@ -9,4 +9,4 @@ const eexist = (err, req, res, next) => {
   next(err);
 };
 
-module.exports = eexist;
+export default eexist;

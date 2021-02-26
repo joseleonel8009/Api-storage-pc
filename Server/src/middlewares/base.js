@@ -6,6 +6,6 @@ const manageErr = (err, settings) => {
     err.statusCode = settings.statusCode;
   
     return true;
-  };
+};
   
-  module.exports = { manageErr };
+export default manageErr;

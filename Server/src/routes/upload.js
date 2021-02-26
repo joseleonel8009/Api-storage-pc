@@ -1,12 +1,12 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const expFileUp = require('express-fileupload');
-const processPath = require('../lib/path');
-const moveFile = require('../lib/mv');
+import { Router } from "express";
+import expFileUp from "express-fileupload";
+import processPath from "../lib/path";
+import moveFile from "../lib/mv";
+import fs from "fs";
+import path from "path";
 
 // Initialization
-const router = express.Router();
+const router = Router();
 router.use(expFileUp());
 
 router.post('/upload/:path?', async(req, res, next) =>{
@@ -47,4 +47,29 @@ router.post('/upload/:path?', async(req, res, next) =>{
   });
 });
 
-module.exports = router;
+router.post('/delete/:pathU?/:name', async (req, res, next)=>{
+
+	const { pathU, name } = req.params;
+
+	const dirPath = processPath(pathU);
+
+	if (!name) {
+		return res.json({
+			success: false,
+			message: 'No name was specified'
+		});
+	}
+
+	try {
+		/*Para eliminar el archivo necesita tener la extencion de este*/
+		await fs.promises.unlink(path.join(dirPath.absolutePath, name));
+	} catch (e) {
+		return next(e);
+	}
+	return res.json({
+		success: true,
+		message: 'File successfully delete'
+	});
+});
+
+export default router;

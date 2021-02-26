@@ -1,10 +1,14 @@
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
+import express from "express";
+import morgan from'morgan';
 
-const enoent = require('./middlewares/enoent');
-const eexist = require('./middlewares/eexist');
-const err = require('./middlewares/err');
+import content from "./routes/content";
+import upload from "./routes/upload";
+import dir from "./routes/dir";
+import download from "./routes/download";
+
+import enoent from'./middlewares/enoent';
+import eexist from'./middlewares/eexist';
+import err from'./middlewares/err';
 
 // Initializations
 const app = express();
@@ -13,15 +17,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middlewares
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use(require('./routes/content'));
-app.use(require('./routes/upload'));
-app.use(require('./routes/createDir'));
-app.use(require('./routes/download'));
+app.use(content);
+app.use(upload);
+app.use(dir);
+app.use(download);
 
 // Errors
 app.use(enoent);
@@ -30,5 +34,5 @@ app.use(err);
 
 // Server on Port
 app.listen(port, ()=>{
-    console.log('Server on port: ', port)
+    console.log('Server on port: ',port)
 });

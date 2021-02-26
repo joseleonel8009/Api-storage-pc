@@ -1,5 +1,5 @@
-const path = require('path');
-const storage = require('../storage');
+import path from "path";
+import storage from "../storage";
 
 const slash = process.platform === 'win32' ? '\\' : '/';
 
@@ -10,4 +10,4 @@ const processPath = (urlPath) => {
   return { relativePath, absolutePath };
 };
 
-module.exports = processPath;
+export default processPath;

@@ -1,5 +1,5 @@
-const path = require('path');
-const fs = require('fs');
+import path from "path";
+import fs from "fs";
 
 const moveFile = (file, storagePath) => {
   const filePath = path.join(storagePath, file.name);
@@ -19,4 +19,4 @@ const moveFile = (file, storagePath) => {
   });
 };
 
-module.exports = moveFile;
+export default moveFile;

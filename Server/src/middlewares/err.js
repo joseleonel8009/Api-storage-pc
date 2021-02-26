@@ -6,4 +6,4 @@ const err = (err, req, res, next) => {
     });
   };
   
-  module.exports = err;
+export default err;

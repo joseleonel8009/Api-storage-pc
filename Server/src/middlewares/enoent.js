@@ -1,7 +1,7 @@
-const { manageErr } = require('./base');
+import manageErr from "./base";
 
 const enoent = (err, req, res, next) => {
-  manageErr(err, {
+    manageErr(err, {
     code: 'ENOENT',
     message: 'File or directory does not exist',
     statusCode: 400,
@@ -9,4 +9,4 @@ const enoent = (err, req, res, next) => {
   next(err);
 };
 
-module.exports = enoent;
+export default enoent;
