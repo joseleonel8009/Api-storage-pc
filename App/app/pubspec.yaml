@@ -32,12 +32,28 @@ dependencies:
   dio: any
   file_picker: any
   ext_storage: any
+  # path_provider: any
   permission_handler: ^4.4.0
   provider: ^4.3.3
+  flutter_plugin_pdf_viewer: any
+  full_screen_image: any
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+  flutter_launcher_name: "^0.0.1"
+
+flutter_icons:
+  android: true
+  iOS: true
+  image_path: "assets/images/search.png"
+
+flutter_launcher_name:
+  name: "Cloud"
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

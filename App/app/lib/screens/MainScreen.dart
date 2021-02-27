@@ -155,256 +155,135 @@ class _MainScreenState extends State<MainScreen> {
     return SizedBox(
       height: 400,
       child: Center(
-          child: bloc.api == null && bloc.getData(null) != null
-              ? Center(
-                  child: !isReload
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Sin servició",
-                              style: TextStyle(
-                                fontSize: 36,
-                                color: Theme.of(context).errorColor,
-                              ),
+        child: bloc.api == null && bloc.getData(null) != null
+            ? Center(
+                child: !isReload
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Sin servició",
+                            style: TextStyle(
+                              fontSize: 36,
+                              color: Theme.of(context).errorColor,
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MaterialButton(
-                              onPressed: () {
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                isReload = !isReload;
+                              });
+                              Timer(Duration(seconds: 20), () {
                                 setState(() {
                                   isReload = !isReload;
                                 });
-                                Timer(Duration(seconds: 20), () {
-                                  setState(() {
-                                    isReload = !isReload;
-                                  });
-                                });
-                              },
-                              child: Text(
-                                "Reintentar",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              color: Theme.of(context).accentColor,
+                              });
+                            },
+                            child: Text(
+                              "Reintentar",
+                              style: TextStyle(color: Colors.white),
                             ),
-                          ],
-                        )
-                      : FutureBuilder(
-                          future: bloc.getData(null),
-                          builder: (BuildContext context, index) {
-                            return CircularProgressIndicator();
-                          },
-                        ),
-                )
-              : bloc.api.content == null
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : FutureBuilder(
-                      // future: loadData(),
-                      future: bloc.getData(null),
-                      builder: (context, _) {
-                        return bloc.api.content.all == null
-                            ? Center(
-                                child: Text("No hay datos"),
-                              )
-                            : ListView.builder(
-                                padding:
-                                    EdgeInsets.only(left: 30.0, right: 30.0),
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: category.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 30, right: 20),
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (category[index].routeName ==
-                                            "/Dirs") {
-                                          Navigator.pushNamed(context, "/Dirs");
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (_) => CarpetaScreen()));
-                                        } else if (category[index].routeName ==
-                                            "/Files") {
-                                          Navigator.pushNamed(
-                                              context, "/Files");
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (_) => ArchivoScreen()));
-                                        } else {
-                                          Scaffold.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text("La ruta no existe"),
-                                            behavior: SnackBarBehavior.floating,
-                                          ));
-                                        }
-                                      },
-                                      child: Container(
-                                        height: 250,
-                                        width: 250,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          color: category[index].color,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(24.0),
-                                              child: Image.asset(
-                                                  category[index].imgIcon),
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ],
+                      )
+                    : FutureBuilder(
+                        future: bloc.getData(null),
+                        builder: (BuildContext context, index) {
+                          return CircularProgressIndicator();
+                        },
+                      ),
+              )
+            : bloc.api.content == null
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : FutureBuilder(
+                    // future: loadData(),
+                    future: bloc.getData(null),
+                    builder: (context, _) {
+                      var size = MediaQuery.of(context).size;
+                      return bloc.api.content.all == null
+                          ? Center(
+                              child: Text("No hay datos"),
+                            )
+                          : ListView.builder(
+                              padding: EdgeInsets.only(left: size.height / 10),
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: category.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 30, right: 20),
+                                  child: InkWell(
+                                    onTap: () {
+                                      if (category[index].routeName ==
+                                          "/Dirs") {
+                                        Navigator.pushNamed(context, "/Dirs");
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (_) => CarpetaScreen()));
+                                      } else {
+                                        Scaffold.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text("La ruta no existe"),
+                                          behavior: SnackBarBehavior.floating,
+                                        ));
+                                      }
+                                    },
+                                    child: Container(
+                                      // height: 250,
+                                      width: 260,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: category[index].color,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(24.0),
+                                            child: Image.asset(
+                                                category[index].imgIcon),
+                                          ),
+                                          Text(
+                                            category[index].title,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            Text(
-                                              category[index].title,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            bloc.api == null
+                                                ? 0.toString()
+                                                : bloc.api.content.directories
+                                                        .length
+                                                        .toString() +
+                                                    " " +
+                                                    category[index].subtitle1,
+                                            style: TextStyle(
+                                              color: Colors.grey[900],
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w300,
                                             ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Text(
-                                              index == 0
-                                                  ? bloc.api == null
-                                                      ? 0.toString()
-                                                      : bloc
-                                                              .api
-                                                              .content
-                                                              .directories
-                                                              .length
-                                                              .toString() +
-                                                          " " +
-                                                          category[index]
-                                                              .subtitle
-                                                  : bloc.api == null
-                                                      ? 0.toString()
-                                                      : bloc.api.content.files
-                                                              .length
-                                                              .toString() +
-                                                          " " +
-                                                          category[index]
-                                                              .subtitle,
-                                              style: TextStyle(
-                                                color: Colors.grey[900],
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  );
-                                },
-                              );
-                      })),
-
-      // : bloc.getData(null) == null
-      //     ? Center(
-      //         child: CircularProgressIndicator(),
-      //       )
-      // : FutureBuilder(
-      //     // future: loadData(),
-      //     future: bloc.getData(null),
-      //     builder: (context, _) {
-      //       return bloc.api.content.all == null
-      //           ? Center(
-      //               child: Text("No hay datos"),
-      //             )
-      //           : ListView.builder(
-      //               padding: EdgeInsets.only(left: 30.0, right: 30.0),
-      //               physics: BouncingScrollPhysics(),
-      //               scrollDirection: Axis.horizontal,
-      //               itemCount: category.length,
-      //               itemBuilder: (context, index) {
-      //                 return Padding(
-      //                   padding: EdgeInsets.only(top: 30, right: 20),
-      //                   child: InkWell(
-      //                     onTap: () {
-      //                       if (category[index].routeName == "/Dirs") {
-      //                         Navigator.pushNamed(context, "/Dirs");
-      //                         // Navigator.push(
-      //                         //     context,
-      //                         //     MaterialPageRoute(
-      //                         //         builder: (_) => CarpetaScreen()));
-      //                       } else if (category[index].routeName ==
-      //                           "/Files") {
-      //                         Navigator.pushNamed(context, "/Files");
-      //                         // Navigator.push(
-      //                         //     context,
-      //                         //     MaterialPageRoute(
-      //                         //         builder: (_) => ArchivoScreen()));
-      //                       } else {
-      //                         Scaffold.of(context)
-      //                             .showSnackBar(SnackBar(
-      //                           content: Text("La ruta no existe"),
-      //                           behavior: SnackBarBehavior.floating,
-      //                         ));
-      //                       }
-      //                     },
-      //                     child: Container(
-      //                       height: 250,
-      //                       width: 250,
-      //                       decoration: BoxDecoration(
-      //                         borderRadius: BorderRadius.circular(15),
-      //                         color: category[index].color,
-      //                       ),
-      //                       child: Column(
-      //                         children: [
-      //                           Padding(
-      //                             padding: const EdgeInsets.all(24.0),
-      //                             child: Image.asset(
-      //                                 category[index].imgIcon),
-      //                           ),
-      //                           Text(
-      //                             category[index].title,
-      //                             style: TextStyle(
-      //                               color: Colors.white,
-      //                               fontSize: 24,
-      //                               fontWeight: FontWeight.w500,
-      //                             ),
-      //                           ),
-      //                           SizedBox(
-      //                             height: 20,
-      //                           ),
-      //                           Text(
-      //                             index == 0
-      //                                 ? bloc.api == null
-      //                                     ? 0.toString()
-      //                                     : bloc.api.content.directories
-      //                                             .length
-      //                                             .toString() +
-      //                                         " " +
-      //                                         category[index].subtitle
-      //                                 : bloc.api == null
-      //                                     ? 0.toString()
-      //                                     : bloc.api.content.files
-      //                                             .length
-      //                                             .toString() +
-      //                                         " " +
-      //                                         category[index].subtitle,
-      //                             style: TextStyle(
-      //                               color: Colors.grey[900],
-      //                               fontSize: 16,
-      //                               fontWeight: FontWeight.w300,
-      //                             ),
-      //                           ),
-      //                         ],
-      //                       ),
-      //                     ),
-      //                   ),
-      //                 );
-      //               },
-      //             );
-      //     }),
+                                  ),
+                                );
+                              },
+                            );
+                    },
+                  ),
+      ),
     );
   }
 }

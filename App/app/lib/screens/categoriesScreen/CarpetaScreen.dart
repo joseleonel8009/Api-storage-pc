@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:app/Api/Api.dart';
 import 'package:app/Provider/ApiResponseBLoC.dart';
 import 'package:app/widgets/components/SnackBar.dart';
+import 'package:app/widgets/components/imgFile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -21,8 +22,7 @@ class CarpetaScreen extends StatefulWidget {
 }
 
 class _CarpetaScreenState extends State<CarpetaScreen> {
-  String url = "http://192.168.1.3:3000/";
-  Api api;
+  // Api api;
   Api content;
   var name;
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // loadData();
-      Provider.of<ApiResponseBLoC>(context, listen: false);
+      Provider.of<ApiResponseBLoC>(context, listen: false)..getData(null);
     });
     super.initState();
 
@@ -57,7 +57,7 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Carpetas"),
+        title: Text("Contenido"),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Color(0xFF329d9c),
@@ -94,7 +94,7 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
                         : GridView.count(
                             crossAxisCount: 2,
                             children:
-                                bloc.api.content.directories.map((dirName) {
+                                bloc.api.content.directories.map((allCon) {
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: InkWell(
@@ -128,12 +128,11 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
                                                       "/DirIntoDir",
                                                       arguments: <String,
                                                           String>{
-                                                        'dirName': dirName,
+                                                        'dirName': allCon,
                                                         'beforeName': bloc
                                                             .api.path
                                                             .replaceAll(
                                                                 "\\", "--"),
-                                                        'url': bloc.initialUrl,
                                                       },
                                                     );
                                                   },
@@ -155,7 +154,7 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
                                                       http.Response res =
                                                           await http.post(bloc
                                                                   .initialUrl +
-                                                              "dirRemove/$dirName");
+                                                              "dirRemove/$allCon");
                                                       var decoded =
                                                           jsonDecode(res.body);
                                                       content =
@@ -221,28 +220,16 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                dirName.contains(".ini")
-                                                    ? "assets/images/close.png"
-                                                    : "assets/images/folder.png",
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                        imgFile(allCon),
                                         Text(
-                                          dirName,
+                                          allCon,
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        if (dirName.contains(".ini"))
+                                        if (allCon.contains(".ini"))
                                           Text("No abrir"),
                                       ],
                                     ),

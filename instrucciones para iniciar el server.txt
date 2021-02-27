@@ -1,0 +1,3 @@
+para iniciar el servidor solo haga doble click en el archivo llamado "initializeServer.sh" y este ejecutara el servidor
+
+para cancelar el servidor solo haga ctrl(control izquierdo) + C y luego escriba "S" y este automaticamente cancelara el servidor
