@@ -17,7 +17,7 @@ Widget bNewFileOrDir(
   return SingleChildScrollView(
     child: Container(
       color: Colors.white,
-      height: size.height / 3,
+      height: size.height / 2,
       child: Container(
         child: Column(
           children: [

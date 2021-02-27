@@ -133,7 +133,7 @@ class _CarpetaSubScreenState extends State<CarpetaSubScreen> {
                                                 SingleChildScrollView(
                                                   child: Container(
                                                     color: Colors.white,
-                                                    height: size.height / 3,
+                                                    height: size.height / 2,
                                                     child: Container(
                                                       child: Column(
                                                         children: [
@@ -179,7 +179,7 @@ class _CarpetaSubScreenState extends State<CarpetaSubScreen> {
                                           builder: (_) => SingleChildScrollView(
                                             child: Container(
                                               color: Colors.white,
-                                              height: size.height / 3,
+                                              height: size.height / 2,
                                               child: Container(
                                                 child: Column(
                                                   children: [

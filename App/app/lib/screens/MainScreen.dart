@@ -205,13 +205,12 @@ class _MainScreenState extends State<MainScreen> {
                     // future: loadData(),
                     future: bloc.getData(null),
                     builder: (context, _) {
-                      var size = MediaQuery.of(context).size;
                       return bloc.api.content.all == null
                           ? Center(
                               child: Text("No hay datos"),
                             )
                           : ListView.builder(
-                              padding: EdgeInsets.only(left: size.height / 10),
+                              padding: EdgeInsets.only(left: 50),
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemCount: category.length,

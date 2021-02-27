@@ -104,7 +104,7 @@ class _CarpetaScreenState extends State<CarpetaScreen> {
                                       builder: (_) => SingleChildScrollView(
                                         child: Container(
                                           color: Colors.white,
-                                          height: size.height / 3,
+                                          height: size.height / 2,
                                           child: Container(
                                             child: Column(
                                               children: [
